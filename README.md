@@ -27,8 +27,8 @@ This fix may not work for every instance, if this doesn't work please join our !
 | `hoverstats` | Shows the help message for the plugin |
 | `hoverstats reload` | Reloads the plugin |
 | `hoverstats version` | Shows the current version of the plugin and config file |
-| `hoverstats blacklist [group|user] [Group Name|User Name]` | Blacklist a specific player or group from being able to send hoverable messages |
-| `hoverstats whitelist [group|user] [Group Name|User Name]` | Whitelist a specific player or group, allowing them to be able to send hoverable messages |
+| `hoverstats blacklist [group/user] [Group Name/User Name]` | Blacklist a specific player or group from being able to send hoverable messages |
+| `hoverstats whitelist [group/user] [Group Name/User Name]` | Whitelist a specific player or group, allowing them to be able to send hoverable messages |
 </details>
 
 <details>
