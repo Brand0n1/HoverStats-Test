@@ -98,6 +98,16 @@ public class Messages {
         Bukkit.getServer().getConsoleSender().sendMessage("[" + plugin.getName() + "]" + Placeholders.formatPlaceholders(path));
     }
 
+    public static void alreadyWhitelisted(CommandSender sender, String option, String input) {
+        String path = plugin.getConfig().getString("Messages.System Messages.Error.Already Whitelisted", "%error% &7The %option% you entered (&b%input%&7) is already whitelisted, to remove them please use the /blacklist command.");
+        path = path.replaceAll("%option%", option).replaceAll("%input%", input);
+        if (sender instanceof Player) {
+            sender.sendMessage(Placeholders.addPlaceholders((Player) sender, path));
+            return;
+        }
+        Bukkit.getServer().getConsoleSender().sendMessage("[" + plugin.getName() + "]" + Placeholders.formatPlaceholders(path));
+    }
+
     public static void notBlacklisted(CommandSender sender, String option, String input) {
         String path = plugin.getConfig().getString("Messages.System Messages.Error.Not Blacklisted", "%error% &7The %option% you entered (&b%input%&7) is not blacklisted, to add them please use the /blacklist command.");
         path = path.replaceAll("%option%", option).replaceAll("%input%", input);
@@ -109,7 +119,7 @@ public class Messages {
     }
 
     public static void addedBlacklist(CommandSender sender, String option, String input) {
-        String path = plugin.getConfig().getString("Messages.System Messages.Success.Added Blacklisted", "%success% &7Successfully added %option% (&b%input%&7) to the blacklist.");
+        String path = plugin.getConfig().getString("Messages.System Messages.Success.Added Blacklist", "%success% &7Successfully added %option% (&b%input%&7) to the blacklist.");
         path = path.replaceAll("%option%", option).replaceAll("%input%", input);
         if (sender instanceof Player) {
             sender.sendMessage(Placeholders.addPlaceholders((Player) sender, path));

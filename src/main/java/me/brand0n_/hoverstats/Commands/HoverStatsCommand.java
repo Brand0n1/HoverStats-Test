@@ -41,6 +41,8 @@ public class HoverStatsCommand implements CommandExecutor {
                                 blackListedGroups.remove(args[2]);
                                 // Update the blacklisted groups in the config
                                 plugin.getConfig().set("Hover Blacklist.Groups", blackListedGroups);
+                                // Save the config
+                                plugin.saveConfig();
                                 // Reload the config
                                 plugin.reloadConfig();
                                 // Send the user a message saying that they were removed from blacklist
@@ -54,14 +56,16 @@ public class HoverStatsCommand implements CommandExecutor {
                                 // Check if the entered user is already blacklisted
                                 if (!blackListedUsers.contains(args[2])) {
                                     // Tell the user that they entered a user that was already blacklisted
-                                    Messages.alreadyBlacklisted(sender, "user", args[2]);
+                                    Messages.alreadyWhitelisted(sender, "user", args[2]);
                                     // Exit the code, all work is done
                                     return true;
                                 }
                                 // Add the current defined user to list of blacklisted users in the config
-                                blackListedUsers.add(args[2]);
+                                blackListedUsers.remove(args[2]);
                                 // Update the blacklisted user in the config
                                 plugin.getConfig().set("Hover Blacklist.Users", blackListedUsers);
+                                // Save the config
+                                plugin.saveConfig();
                                 // Reload the config
                                 plugin.reloadConfig();
                                 // Send the user a message saying that they were removed from blacklist
@@ -97,8 +101,11 @@ public class HoverStatsCommand implements CommandExecutor {
                                 }
                                 // Add the current defined group to list of blacklisted groups
                                 blackListedGroups.add(args[2]);
+                                System.out.println(blackListedGroups);
                                 // Update the blacklisted groups in the config
                                 plugin.getConfig().set("Hover Blacklist.Groups", blackListedGroups);
+                                // Save the config
+                                plugin.saveConfig();
                                 // Reload the config
                                 plugin.reloadConfig();
                                 // Send the user a message saying that they were added to blacklist
@@ -139,6 +146,8 @@ public class HoverStatsCommand implements CommandExecutor {
                                 blackListedUsers.add(args[2]);
                                 // Update the blacklisted user in the config
                                 plugin.getConfig().set("Hover Blacklist.Users", blackListedUsers);
+                                // Save the config
+                                plugin.saveConfig();
                                 // Reload the config
                                 plugin.reloadConfig();
                                 // Send the user a message saying that they were added to blacklist

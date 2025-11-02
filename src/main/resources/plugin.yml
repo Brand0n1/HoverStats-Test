@@ -28,17 +28,17 @@ permissions:
     description: This will give the player access to all hex colors
     default: false
   hoverstats.whitelist:
-    default: false
+    default: op
   hoverstats.blacklist:
-    default: false
+    default: op
   hoverstats.whitelist.user:
-    default: false
+    default: op
   hoverstats.whitelist.group:
-    default: false
+    default: op
   hoverstats.blacklist.user:
-    default: false
+    default: op
   hoverstats.blacklist.group:
-    default: false
+    default: op
   hoverstats.update:
     default: op
   hoverstats.version:

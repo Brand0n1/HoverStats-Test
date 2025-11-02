@@ -45,6 +45,7 @@ public class HoverStatsTabHandler implements TabCompleter {
                         }
                     }
                 }
+                return result;
             }
             case 2: {
                 if (args[0].equalsIgnoreCase("whitelist")) {
@@ -59,6 +60,7 @@ public class HoverStatsTabHandler implements TabCompleter {
                         result.add("user");
                     }
                 }
+                return result;
             }
             case 1: {
                 if (Permissions.hasPermission(sender, "hoverstats.reload")) {
@@ -73,6 +75,7 @@ public class HoverStatsTabHandler implements TabCompleter {
                 if (Permissions.hasPermission(sender, "hoverstats.blacklist")) {
                     result.add("blacklist");
                 }
+                return result;
             }
             default: {
                 if (Permissions.hasPermission(sender, "hoverstats.help")) {
