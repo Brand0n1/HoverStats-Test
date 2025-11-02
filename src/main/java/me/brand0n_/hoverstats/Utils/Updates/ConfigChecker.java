@@ -340,6 +340,11 @@ public class ConfigChecker {
 
         // Loop through the list of key values
         for (String key : configKeys) {
+            // Check if the current key is the version
+            if (key.equalsIgnoreCase("Version")) {
+                // The current key is the Version key, don't touch it. Continue to the next key
+                continue;
+            }
             // Save the old key as a variable
             Object oldKey = oldConfig.get(key);
             // Check if the current key is valid in the old configuration
