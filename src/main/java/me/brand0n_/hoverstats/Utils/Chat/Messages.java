@@ -49,6 +49,15 @@ public class Messages {
         return Placeholders.formatPlaceholders(path);
     }
 
+    public static String vaultHookSuccess() {
+        String path = plugin.getConfig().getString("Messages.System Messages.Success.Vault Hook", "&aFound Vault, hooking into it.");
+        return Placeholders.formatPlaceholders(path);
+    }
+    public static String vaultHookFailed() {
+        String path = plugin.getConfig().getString("Messages.System Messages.Error.Vault Hook", "&cCouldn't find Vault, permission based commands will not work until vault is installed.");
+        return Placeholders.formatPlaceholders(path);
+    }
+
     public static void sendVersionInfo(CommandSender sender) {
         // Define the message being sent
         String message = "\n&b" + plugin.getName() + " &8[&a" + plugin.getDescription().getVersion() + "&8]\n" +

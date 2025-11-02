@@ -1,0 +1,163 @@
+# DO NOT CHANGE, this value is used for internal plugin use only
+Version: ${project.version}
+# #################################################################### #
+#                                                                      #
+#                              Groups.yml                              #
+#                                                                      #
+# #################################################################### #
+
+Chat Messages:
+  # Set the standards for the default group
+  default:
+    # Set the standards for what message should be sent to the users when a player chats
+    Message Format: "#e8e9eb%displayname% &8&l> &7%message%"
+    # Set the standards for when a player chats, hover feature
+    Hover:
+      # Set the message that will be sent as a hoverable effect on the player's chat message
+      Message:
+        - "&e&l%player%'s Stats:"
+        - ""
+        - "&e&lJoin Date:"
+        - "#556DC8%first_joined%"
+        - ""
+        - "&e&lClick this to message player"
+      # Set the command that will run when the player clicks on the text that sends the hover message
+      Command: "/msg %player% "
+
+  admin:
+    Message Format: "#F87B62%displayname% &8&l> &7%message%"
+    Hover:
+      Message:
+        - "&e&lRank: #556DC8%rank%"
+        - "&e&l%player%'s Stats:"
+        - ""
+        - "&e&lJoin Date:"
+        - "#556DC8%first_joined%"
+        - ""
+        - "&e&lClick this to message player"
+      Command: "/helpop"
+
+
+# Define the join message for each of the groups on your server along with the hover message
+Join Messages:
+  # Define what the server should send when it is the player's first time joining the server
+  First Join:
+    # Set the standards for the default group
+    default:
+      # Set the standards for what message should be sent to the user for their first join
+      Self:
+        # Set the Message Format for when the player first joins the server
+        Message Format: "&7Welcome &b%displayname%&7 to the server!"
+        # Set the standards for the first join hover feature
+        Hover:
+          # Set the message that will be sent as a hoverable effect on the first join message
+          Message:
+            - "&7Welcome to the server &b%displayname%&7!"
+            - "&7We hope you enjoy your stay!"
+            - ""
+            - "&e&lClick this to see the \"/help\" message."
+          # Set the command that will run when the player clicks on the text that sends the hover message
+          Command: "/help"
+
+      # Set the standards for what message should be sent to all other users when a player first joins
+      Others:
+        # Set the Message Format for when the player first joins the server
+        Message Format: "&7Welcome &b%displayname%&7 to the server!"
+        # Set the standards for the first join hover feature
+        Hover:
+          # Set the message that will be sent as a hoverable effect on the first join message
+          Message:
+            - "&7Welcome &b%displayname% &7to the server!"
+            - ""
+            - "&e&lClick this to say \"Welcome to the Server!\""
+          # Set the command that will run when the player clicks on the text that sends the hover message
+          Command: "Welcome to the Server!"
+
+    admin:
+      Self:
+        Message Format: "&7Welcome &b%displayname%&7 to the server!"
+        Hover:
+          Message:
+            - "&7Welcome to the server &b%displayname%&7!"
+            - "&7We hope you enjoy your stay!"
+            - "&7There are currently &f%onlinePlayers%&7 players online"
+            - ""
+            - "&e&lClick this to go into vanish"
+          Command: "/vanish"
+
+      Others:
+        Message Format: "&7Welcome &b%displayname%&7 to the server!"
+        Hover:
+          Message:
+            - "&7Welcome &b%displayname% &7to the server!"
+            - "&e&lRank: #556DC8%rank%"
+            - ""
+            - "&e&lClick this to say \"Welcome to the Server!\""
+          Command: "Welcome to the Server!"
+
+  # Define what the server should send when on a normal join message
+  Standard Join:
+    # Set the standards for the default group
+    default:
+      # Set the standards for what message should be sent to the users when a player joins
+      Message Format: "&8[&a+&8] &7%displayname%"
+      # Set the standards for when a player joins, hover feature
+      Hover:
+        # Set the message that will be sent as a hoverable effect on the player join message
+        Message:
+          - "&7Welcome to the server &b%displayname%&7!"
+          - ""
+          - "&e&lLast Online:"
+          - "#556DC8%last_joined%"
+          - ""
+          - "&e&lClick this to say welcome back"
+        # Set the command that will run when the player clicks on the text that sends the hover message
+        Command: "Welcome back!"
+
+    admin:
+      Message Format: "&8[&a+&8] &7%displayname%"
+      Hover:
+        Message:
+          - "&7Welcome to the server &b%displayname%&7!"
+          - ""
+          - "&e&lRank:"
+          - "#556DC8%rank%"
+          - "&7--"
+          - "&e&lLast Online:"
+          - "#556DC8%last_joined%"
+          - ""
+          - "&e&lClick this to say welcome back"
+        Command: "Welcome back!"
+
+# Define the quit message for each of the groups on your server along with the hover message
+Quit Messages:
+  # Set the standards for the default group
+  default:
+    # Set the standards for what message should be sent to the users when a player quits
+    Message Format: "&8[&c-&8] &7%displayname%"
+    # Set the standards for when a player quits, hover feature
+    Hover:
+      # Set the message that will be sent as a hoverable effect on the player quit message
+      Message:
+        - "&e&l%player%'s Stats:"
+        - ""
+        - "&e&lJoin Date:"
+        - "#556DC8%first_joined%"
+        - ""
+        - "&e&lClick this to message player"
+      # Set the command that will run when the player clicks on the text that sends the hover message
+      Command: "/mail %player% "
+
+  admin:
+    Message Format: "&8[&c-&8] &7%displayname%"
+    Hover:
+      Message:
+        - "&e&l%player%'s Stats:"
+        - ""
+        - "&e&lRank: #556DC8%rank%"
+        - ""
+        - "&e&lJoin Date:"
+        - "#556DC8%first_joined%"
+        - ""
+        - "&e&lClick this to message player"
+      Command: "/mail %player% "

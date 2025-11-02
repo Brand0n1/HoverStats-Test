@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public class Permissions {
+
     public static boolean hasPermission(CommandSender sender, String permission) {
         // Check if the person trying to run this command is a server entity
         if (!(sender instanceof Player)) {

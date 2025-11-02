@@ -1,9 +1,9 @@
 package me.brand0n_.hoverstats.Utils.Hover;
 
 
-import me.brand0n_.hoverstats.HoverStats;
 import me.brand0n_.hoverstats.Utils.Chat.Colors;
 import me.brand0n_.hoverstats.Utils.Chat.Placeholders;
+import me.brand0n_.hoverstats.Utils.Files.GroupFiles;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -16,17 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoverUtils {
-    private static final HoverStats plugin = HoverStats.getPlugin(HoverStats.class); // Get this from main
 
-    public static TextComponent setupHoverChatMessage(Player p, String message) {
+    public static TextComponent setupHoverChatMessage(Player p, String message, String playerGroup) {
        // Create the main hover component from provided message
         TextComponent mainComponent = new TextComponent(TextComponent.fromLegacyText(Colors.chatColor(message)));
+        // Get the groups file
+        GroupFiles groupsFiles = new GroupFiles();
         // Setup what will happen when the player clicks on the message
-        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(plugin.getConfig().getString("Hover.Stats Click Command", "/msg %player% ")
+        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(groupsFiles.getConfig().getString("Chat Messages."+playerGroup+".Hover.Command", "/msg %player% ")
                 .replace("%displayname%", p.getDisplayName()).replace("%player%", p.getName()))));
 
         // Get the defined hover message from the config
-        List<String> path = plugin.getConfig().getStringList("Hover.Stats");
+        List<String> path = groupsFiles.getConfig().getStringList("Chat Messages."+playerGroup+".Hover.Message");
         // Check if the defined hover message is valid
         if (path.isEmpty()) {
             // Defined hover message is invalid load up the default messages
@@ -44,15 +45,17 @@ public class HoverUtils {
         return mainComponent;
     }
 
-    public static TextComponent setupHoverJoinMessage(Player p, String message) {
+    public static TextComponent setupHoverJoinMessage(Player p, String message, String playerGroup) {
         // Create the main hover component from provided message
         TextComponent mainComponent = new TextComponent(TextComponent.fromLegacyText(Colors.chatColor(message)));
+        // Get the groups file
+        GroupFiles groupsFiles = new GroupFiles();
         // Setup what will happen when the player clicks on the message
-        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(plugin.getConfig().getString("Hover.Join Click Command", "Welcome back")
+        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(groupsFiles.getConfig().getString("Join Messages.Standard Join."+playerGroup+".Hover.Command", "Welcome back!")
                 .replace("%displayname%", p.getDisplayName()).replace("%player%", p.getName()))));
 
         // Get the defined hover message from the config
-        List<String> path = plugin.getConfig().getStringList("Hover.Join");
+        List<String> path = groupsFiles.getConfig().getStringList("Join Messages.Standard Join."+playerGroup+".Hover.Message");
         // Check if the defined hover message is valid
         if (path.isEmpty()) {
             // Defined hover message is invalid load up the default messages
@@ -70,20 +73,47 @@ public class HoverUtils {
         return mainComponent;
     }
 
-    public static TextComponent setupHoverFirstJoinMessage(Player p, String message) {
+    public static TextComponent setupHoverFirstJoinSelfMessage(Player p, String message, String playerGroup) {
         // Create the main hover component from provided message
         TextComponent mainComponent = new TextComponent(TextComponent.fromLegacyText(Colors.chatColor(message)));
+        // Get the groups file
+        GroupFiles groupsFiles = new GroupFiles();
         // Setup what will happen when the player clicks on the message
-        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(plugin.getConfig().getString("Hover.First Join Click Command", "Welcome to the Server!")
+        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(groupsFiles.getConfig().getString("Join Messages.First Join."+playerGroup+".Self.Hover.Command", "/help")
                 .replace("%displayname%", p.getDisplayName()).replace("%player%", p.getName()))));
 
         // Get the defined hover message from the config
-        List<String> path = plugin.getConfig().getStringList("Hover.First Join");
+        List<String> path = groupsFiles.getConfig().getStringList("Join Messages.First Join."+playerGroup+".Self.Hover.Message");
+        // Check if the defined hover message is valid
+        if (path.isEmpty()) {
+            // Defined hover message is invalid load up the default messages
+            path.add("&7Welcome to the server &b%displayname%&7!");
+            path.add("&7We hope you enjoy your stay!");
+            path.add("");
+            path.add("&e&lClick this to see the \"/help\" message.");
+        }
+
+        // Set the hover effect to be attached to the main messages
+        mainComponent.setHoverEvent(formatHoverMessage(p, path));
+        // Return the formatted text component
+        return mainComponent;
+    }
+
+    public static TextComponent setupHoverFirstJoinOthersMessage(Player p, String message, String playerGroup) {
+        // Create the main hover component from provided message
+        TextComponent mainComponent = new TextComponent(TextComponent.fromLegacyText(Colors.chatColor(message)));
+        // Get the groups file
+        GroupFiles groupsFiles = new GroupFiles();
+        // Setup what will happen when the player clicks on the message
+        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(groupsFiles.getConfig().getString("Join Messages.First Join."+playerGroup+".Others.Hover.Command", "/help")
+                .replace("%displayname%", p.getDisplayName()).replace("%player%", p.getName()))));
+
+        // Get the defined hover message from the config
+        List<String> path = groupsFiles.getConfig().getStringList("Join Messages.First Join."+playerGroup+".Others.Hover.Message");
         // Check if the defined hover message is valid
         if (path.isEmpty()) {
             // Defined hover message is invalid load up the default messages
             path.add("&7Welcome &b%displayname% &7to the server!");
-            path.add("&7We hope you enjoy your stay!");
             path.add("");
             path.add("&e&lClick this to say \"Welcome to the Server!\"");
         }
@@ -94,15 +124,17 @@ public class HoverUtils {
         return mainComponent;
     }
 
-    public static TextComponent setupHoverLeaveMessage(Player p, String message) {
+    public static TextComponent setupHoverLeaveMessage(Player p, String message, String playerGroup) {
         // Create the main hover component from provided message
         TextComponent mainComponent = new TextComponent(TextComponent.fromLegacyText(Colors.chatColor(message)));
+        // Get the groups file
+        GroupFiles groupsFiles = new GroupFiles();
         // Setup what will happen when the player clicks on the message
-        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(plugin.getConfig().getString("Hover.Quit Click Command", "/mail %player% ")
+        mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Colors.chatColor(groupsFiles.getConfig().getString("Quit Messages."+playerGroup+".Hover.Command", "/mail %player% ")
                 .replace("%displayname%", p.getDisplayName()).replace("%player%", p.getName()))));
 
         // Get the defined hover message from the config
-        List<String> path = plugin.getConfig().getStringList("Hover.Quit");
+        List<String> path = groupsFiles.getConfig().getStringList("Quit Messages."+playerGroup+".Hover.Message");
         // Check if the defined hover message is valid
         if (path.isEmpty()) {
             // Defined hover message is invalid load up the default messages

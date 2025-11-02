@@ -1,7 +1,9 @@
 package me.brand0n_.hoverstats.Utils.Chat;
 
 import me.brand0n_.hoverstats.HoverStats;
+import me.brand0n_.hoverstats.Utils.Permissions.Ranks;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +21,15 @@ public class Placeholders {
         }
         // PlaceholderAPI isn't installed return false
         return false;
+    }
+
+    public static String setRelativePlaceholder(Player p, Player target, String str) {
+        // Check if the plugin has PlaceholderAPI installed
+        if (plugin.usePAPI) {
+            return PlaceholderAPI.setRelationalPlaceholders(p, target, str);
+        }
+        // Return the formatted result of the current string plugged into the rest of the plugin specific placeholders
+        return formatPlaceholders(str);
     }
 
     public static String addPlaceholders(Player p, String str) {
@@ -45,16 +56,24 @@ public class Placeholders {
                     .replace("%username%", p.getName())
                     // Replace the players username with the players name
                     .replace("%name%", p.getName())
+                    // Replace  with the total number of players online
+                    .replace("%onlinePlayers%", String.valueOf(Bukkit.getOnlinePlayers().size()))
                     // Replace the world with the current world the player is in
                     .replace("%world%", p.getWorld().getName());
         }
-        // Check if the string has any brackets in it
-        if (str.contains("{") && str.contains("}")) {
-            // Remove any bracket placeholders with their proper formats
-            str = PlaceholderAPI.setBracketPlaceholders(p, str);
+        // Check if the plugin has Vault installed
+        if (plugin.useGroups) {
+            // Replace the current player's rank
+            str = str.replace("%rank%", Ranks.getGroup(p));
         }
+
         // Check if the plugin has PlaceholderAPI installed
         if (plugin.usePAPI) {
+            // Check if the string has any brackets in it
+            if (str.contains("{") && str.contains("}")) {
+                // Remove any bracket placeholders with their proper formats
+                str = PlaceholderAPI.setBracketPlaceholders(p, str);
+            }
             // PlaceholderAPI is allowed, replace any and all PlaceholderAPI placeholders with their outputs
             str = PlaceholderAPI.setPlaceholders(p, str);
         }

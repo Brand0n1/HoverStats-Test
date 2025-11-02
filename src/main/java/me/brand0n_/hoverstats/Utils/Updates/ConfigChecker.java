@@ -3,7 +3,6 @@ package me.brand0n_.hoverstats.Utils.Updates;
 import me.brand0n_.hoverstats.HoverStats;
 import me.brand0n_.hoverstats.Utils.Chat.Colors;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -13,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"ResultOfMethodCallIgnored", "BooleanMethodIsAlwaysInverted"})
 public class ConfigChecker {
@@ -20,7 +21,7 @@ public class ConfigChecker {
 
     public static void checkConfig() {
         // Check if the plugin is using HoverStats chat formatting
-        if (!plugin.getConfig().getBoolean("Chat Formatting.Use Formatting", true)) {
+        if (!plugin.getConfig().getBoolean("Formatting.Chat Formatting.Use Formatting", true)) {
             // Not using HoverStats chat formatting, exit checks
             return;
         }
@@ -29,7 +30,7 @@ public class ConfigChecker {
             // Tell the user the formatting is wrong
             plugin.getLogger().severe("Could not find \"%message%\" in the chat format. Please take a look to ensure that it is included, chat formatting will not be used.");
             // Turn off the chat formatting
-            plugin.getConfig().set("Chat Formatting.Use Formatting", false);
+            plugin.getConfig().set("Formatting.Chat Formatting.Use Formatting", false);
             // Save the config
             plugin.saveConfig();
             // Reload the config
@@ -115,7 +116,7 @@ public class ConfigChecker {
         }
 
         // Check if the current version of the config is equal to the defined config version
-        if (!earlierVersion.equalsIgnoreCase(plugin.getDescription().getVersion().replace(" BETA", "").trim())) {
+        if (!earlierVersion.equalsIgnoreCase(plugin.getDescription().getVersion().replaceAll(" ", "").replace("BETA", "").replace("-", "").trim())) {
             // Config is out of date, set it accordingly
             outOfDate = true;
         }
@@ -183,8 +184,13 @@ public class ConfigChecker {
     private static File createFile(File newFile) {
         // Try to create the new location for the config file
         try {
+            // Send a starting message informing the user that the config file has been updated
+            Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯[ &fConfig File Out of Date &9]⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
+            Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &7Attempting to update config file!"));
             // Check if the parent file exists
             if (!newFile.getParentFile().exists()) {
+                // Print barrier
+                Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
                 // Send message saying there was an issue with the parent file
                 Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[ &fParent File Issue &9]⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
                 // Tell user the parent file is being created
@@ -196,15 +202,15 @@ public class ConfigChecker {
                     // Tell user there was an error with creating the parent directory
                     Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &cERROR &8| &7Old config file was unable to be moved. Aborting updating configuration file! " +
                             "(Reason: Parent file couldn't be created.)"));
-                    // Print barrier
-                    Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
                     return null;
                 }
-                // Tell the user the file was created
-                Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7Parent file Created."));
                 // Print barrier
                 Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
+                // Tell the user the file was created
+                Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7Parent file Created."));
             }
+            // Print barrier
+            Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
             // Create a new file for the config file
             newFile.createNewFile();
             Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7Destination File created."));
@@ -302,7 +308,7 @@ public class ConfigChecker {
             Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7Old configuration file has been successfully deleted."));
             // Print barrier
         }
-        Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
+        Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
         return true;
     }
 
@@ -311,55 +317,51 @@ public class ConfigChecker {
      * This method saves all data from previous versions of the plugin into the config file
      * <br /><br />
      *
-     * @param file the file that you'd like to use to get the data back
+     * @param oldConfigFile the file that you'd like to use to get the data back
      */
-    private static void transferOldData(File file) {
-        // Get the YAML properties of the old file
-        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(file);
+    private static void transferOldData(File oldConfigFile) {
+        // Tell the user that the plugin is attempting to migrate their out of date data to the new config
+        Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7 Attempting to migrate data from out of date config."));
+        // Get the old config file
+        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
+        // Define config value keys
+        List<String> configKeys = new ArrayList<>();
 
-        // Loop through all data in oldConfig
-        for (String elm : oldConfig.getKeys(false)) {
-            // Check if the element is version
-            if (elm.equalsIgnoreCase("Version")) {
-                // Keep going this element must not be changed
+        // Loop through all the config keys
+        for (String key : plugin.getConfig().getKeys(true)) {
+            // Check if this key is a configuration section
+            if (plugin.getConfig().isConfigurationSection(key)) {
+                // Continue to next key
                 continue;
             }
-            // Loop through all data, saving it;
-            copyConfigSec(oldConfig, elm);
+            // Add the current key to the list of searchable keys values
+            configKeys.add(key);
         }
-        // Save the changes to the config file
+
+        // Loop through the list of key values
+        for (String key : configKeys) {
+            // Save the old key as a variable
+            Object oldKey = oldConfig.get(key);
+            // Check if the current key is valid in the old configuration
+            if (oldKey == null) {
+                // The current key is invalid, continue to the next key
+                continue;
+            }
+            // Save the old config file value inside the new config file
+            plugin.getConfig().set(key, oldKey);
+        }
+
+        // Save config with comments
+        plugin.saveDefaultConfig();
+        // Save config
         plugin.saveConfig();
-    }
-
-    /**
-     * This method loops through all the data in each key set saving the solo keys as it goes
-     * <br /><br />
-     *
-     * @param oldConfig the old config file you'd like to use as reference
-     * @param element   the current element your checking
-     */
-    private static void copyConfigSec(FileConfiguration oldConfig, String element) {
-        // Element is a config section, get the config section variable
-        ConfigurationSection configSec = oldConfig.getConfigurationSection(element);
-
-        // Ensure the config section isn't null
-        if (configSec == null) {
-            return;
-        }
-        // Loop through all element in the config section
-        for (String data : configSec.getKeys(false)) {
-            // Check if the element is a configuration section
-            if (!(configSec.get(data) instanceof ConfigurationSection)) {
-                // Check if the plugin contains the element
-                if (plugin.getConfig().contains(element)) {
-                    // Element isn't a config section, set the config file to be equal to the old data
-                    plugin.getConfig().set(element, oldConfig.get(element));
-                }
-                // Go to next element, this one was all done
-                continue;
-            }
-            // Keep looping
-            copyConfigSec(oldConfig, data);
-        }
+        // Reload the config
+        plugin.reloadConfig();
+        // Tell the user to check their config to ensure all settings are correct
+        Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7 Moved over all data that we could, please double check you config to ensure your settings are correct"));
+        // Tell the user the location of the old config
+        Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + " &eINFO  &8| &7 Your old config file has moved to "+oldConfigFile.getPath()));
+        // Print barrier
+        Bukkit.getServer().getConsoleSender().sendMessage(Colors.chatColor("[" + plugin.getName() + "]" + "&9⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"));
     }
 }

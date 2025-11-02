@@ -2,7 +2,7 @@ name: HoverStats
 version: '${project.version}'
 main: me.brand0n_.hoverstats.HoverStats
 api-version: 1.16
-softdepend:  [ PlaceholderAPI ]
+softdepend:  [ PlaceholderAPI, LPC, Vault ]
 authors: [ Brand0n_ ]
 description: Add a hover effect over the players message in chat saying some key stats
 
@@ -29,7 +29,11 @@ permissions:
     default: false
   hoverstats.update:
     default: op
+  hoverstats.version:
+    default: op
   hoverstats.reload:
+    default: false
+  hoverstats.chat.view:
     default: false
 
   hoverstats.admin:
@@ -37,9 +41,23 @@ permissions:
       hoverstats.help: true
       hoverstats.reload: true
       hoverstats.update: true
+      hoverstats.version: true
+      hoverstats.chat.view: true
+      hoverstats.colors.hex: true
+      hoverstats.magic.*: true
+      hoverstats.colors.*: true
+      hoverstats.join-formatting: true
+      hoverstats.leave-formatting: true
   hoverstats.*:
     children:
       hoverstats.help: true
       hoverstats.reload: true
       hoverstats.update: true
+      hoverstats.version: true
+      hoverstats.chat.view: true
+      hoverstats.colors.hex: true
+      hoverstats.magic.*: true
+      hoverstats.colors.*: true
+      hoverstats.join-formatting: true
+      hoverstats.leave-formatting: true
 

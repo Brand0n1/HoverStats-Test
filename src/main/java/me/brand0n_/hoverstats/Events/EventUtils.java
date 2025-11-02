@@ -26,12 +26,8 @@ public class EventUtils {
     }
 
     public static void unRegister() {
-        // Unregister the player chat event
-        HandlerList.unregisterAll(new OnPlayerChat());
-        // Unregister the player join event
-        HandlerList.unregisterAll(new OnPlayerJoin());
-        // Unregister the player leave event
-        HandlerList.unregisterAll(new OnPlayerLeave());
+        // Unregister all the events from within the plugin
+        HandlerList.unregisterAll(plugin);
     }
 
 }

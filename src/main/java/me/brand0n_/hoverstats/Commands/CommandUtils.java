@@ -8,10 +8,10 @@ public class CommandUtils {
     private static final HoverStats plugin = HoverStats.getPlugin(HoverStats.class); // Get this from main
 
     public static void init() {
-        setupMentionPlayerCommand();
+        setupMainCommands();
     }
 
-    private static void setupMentionPlayerCommand() {
+    private static void setupMainCommands() {
         Objects.requireNonNull(plugin.getCommand("hoverstats")).setExecutor(new HoverStatsCommand());
         Objects.requireNonNull(plugin.getCommand("hoverstats")).setTabCompleter(new HoverStatsTabHandler());
     }

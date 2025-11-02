@@ -3,8 +3,10 @@ package me.brand0n_.hoverstats.Events;
 import me.brand0n_.hoverstats.HoverStats;
 import me.brand0n_.hoverstats.Utils.Chat.Colors;
 import me.brand0n_.hoverstats.Utils.Chat.Placeholders;
+import me.brand0n_.hoverstats.Utils.Files.GroupFiles;
 import me.brand0n_.hoverstats.Utils.Hover.HoverUtils;
 import me.brand0n_.hoverstats.Utils.Permissions.Permissions;
+import me.brand0n_.hoverstats.Utils.Permissions.Ranks;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class OnPlayerLeave implements EventExecutor, Listener {
     private static final HoverStats plugin = HoverStats.getPlugin(HoverStats.class); // Get this from main
@@ -29,14 +33,14 @@ public class OnPlayerLeave implements EventExecutor, Listener {
         Player p = e.getPlayer();
 
         // Check if the plugin is using its own formatting
-        if (!plugin.getConfig().getBoolean("Quit Formatting.Use Formatting", true)) {
+        if (!plugin.getConfig().getBoolean("Formatting.Use Quit Formatting", true)) {
             // Plugin doesn't want to use its own formatting, return
             return;
         }
 
         // Check if the player has the permission to run this
         if (!Permissions.hasPermission(p, "hoverstats.leave-formatting")) {
-            // Player doesn't have the permission to use join formatting, don't send a message
+            // Player doesn't have the permission to use leave formatting, don't send a message
             return;
         }
 
@@ -52,9 +56,24 @@ public class OnPlayerLeave implements EventExecutor, Listener {
             // Another plugin has changed the join  message, more than likely a vanish plugin don't do anything
             return;
         }
+        // Set the default rank
+        String playerQuitMessageRank = "default";
+
+        // Check if the plugin wants to use groups
+        if (plugin.useGroups) {
+            // Get the player's group
+            String pRank = Ranks.getGroup(p);
+            // Get the defined quit message groups
+            List<String> quitGroups = Ranks.getDefinedQuitMessageGroups();
+            // Get the ranks that are defined in the Quit Message section
+            playerQuitMessageRank = quitGroups.contains(pRank) ? quitGroups.get(quitGroups.indexOf(pRank)) : "default";
+        }
+        // Get the groups file
+        GroupFiles groupsFiles = new GroupFiles();
 
         // Get the message from config
-        String leaveMessage = plugin.getConfig().getString("Quit Formatting.Quit Message Format", "&8[&c-&8] &7%displayname%");
+        String leaveMessage = groupsFiles.getConfig().getString("Quit Messages." + playerQuitMessageRank + ".Message Format", "&8[&c-&8] &7%displayname%");
+
         // Format the join message
         leaveMessage = Placeholders.addPlaceholders(p, leaveMessage);
 
@@ -62,7 +81,7 @@ public class OnPlayerLeave implements EventExecutor, Listener {
         e.setQuitMessage(null);
 
         // Get the final output message
-        TextComponent hoverMessage = formatJoinHoverMessage(p, leaveMessage);
+        TextComponent hoverMessage = formatJoinHoverMessage(p, leaveMessage, playerQuitMessageRank);
 
         // Get a list of all online players
         for (Player targetPlayer : Bukkit.getServer().getOnlinePlayers()) {
@@ -75,11 +94,11 @@ public class OnPlayerLeave implements EventExecutor, Listener {
         e.setQuitMessage(null);
     }
 
-    private TextComponent formatJoinHoverMessage(Player p, String message) {
+    private TextComponent formatJoinHoverMessage(Player p, String message, String playerGroup) {
         // Make an empty main message element for future use
         TextComponent mainMessage = new TextComponent();
         // Create the hover event by calling on another method
-        TextComponent hoverEvents = HoverUtils.setupHoverLeaveMessage(p, message);
+        TextComponent hoverEvents = HoverUtils.setupHoverLeaveMessage(p, message, playerGroup);
 
         // Add the hover message to the final output
         mainMessage.addExtra(hoverEvents);

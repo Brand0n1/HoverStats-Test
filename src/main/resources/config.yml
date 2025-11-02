@@ -11,13 +11,16 @@ Version: ${project.version}
 # Only enable this if you want to learn more about the plugin, or are told to by support staff
 Debug Mode: false # Defaults to false
 
-# Set this to true if you want to use placeholderAPI in the plugin
+# Set this to true if you want to use Vault in the plugin, this enables group based hooks
+Vault hook: true
+
+# Set this to true if you want to use PlaceholderAPI in the plugin
 PAPI hook: true
 
-# Set PAPI hook to true to use all the placeholderAPI placeholders
+# Set PAPI hook to true to use all the PlaceholderAPI placeholders
 # in the messages
 
-# These are the placeholders provided by the plugin
+# These are the Placeholders provided by the plugin
 Placeholders:
   Prefix: "&aTardisDev &8|"
   Error: "&cError &8|"
@@ -29,6 +32,8 @@ Placeholders:
 # #################################################################### #
 #                         List of placeholders                         #
 # #################################################################### #
+#                              Global                                  #
+#                      ######################                          #
 #                                                                      #
 #                    Prefix       -       %prefix%                     #
 #                     Error       -       %error%                      #
@@ -37,11 +42,20 @@ Placeholders:
 #              Command Name       -       %cmdName%                    #
 #                    Player       -       %player%                     #
 #                                                                      #
-#                                                                      #
+# #################################################################### #
 #                           * Disclaimer *                             #
 #                  Player may not work for certain                     #
 #                              messages                                #
+# #################################################################### #
+#                                Chat                                  #
+#                      ######################                          #
 #                                                                      #
+#       Previous Formatting       -       %prev-format%                #
+#                                                                      #
+# #################################################################### #
+#                              * Note *                                #
+#       Any placeholders in the chat section can only be used          #
+#     within the 'Chat Formatting.Format' section of the config        #
 # #################################################################### #
 
 # Set the priority at which the chat event will run. Setting this can fix
@@ -78,38 +92,45 @@ Hex Patterns:
 # Set the global date format
 Date Format: "MM/dd/yy hh:mm:ss"
 
-Join Formatting:
+Formatting:
   # Setting this to false will make it so that either another plugin or default
   # minecraft will take control over the server's join messages. Setting this
   # to true will use the formatting below
-  Use Formatting: true
-  # Set the format of the message when the player joins the server
-  Join Message Format: "&8[&a+&8] &7%displayname%"
-  # Set the format of the message sent when the player first joins the server
-  First Join Message Format: "&7Welcome &b%displayname%&7 to the server!"
+  Use Join Formatting: true
 
-Quit Formatting:
   # Setting this to false will make it so that either another plugin or default
   # minecraft will take control over the server's leave messages. Setting this
   # to true will use the formatting below
-  Use Formatting: true
-  # Set the format of the message when the player leaves the server
-  Quit Message Format: "&8[&c-&8] &7%displayname%"
+  Use Quit Formatting: true
 
 
-Chat Formatting:
-  # Setting this to false will make it so that another plugin will take control
-  # of the chat. Setting this to true will use the formatting below
-  Use Formatting: true
-  # Set the format of the in game chat
-  #
-  # Note: You must include "%message%" at some point in your message format.
-  # Failure to do so will result in the plugin setting use formatting to false
-  # Color is gotten from the final part of the format for the chat. So please
-  # ensure that there is nothing after "%message%" that has a different color.
-  # Anything that is put after the "%message%" will also be put before the
-  # actual message in game.
-  Format: "#e8e9eb%displayname% &8&l> &7%message%"
+  Chat Formatting:
+    # Setting this to true will make it so that only people who have the permission
+    # 'hoverstats.chat.view' can view the hover able message
+    #
+    # Please note that this will make it so ONLY people with this permission are
+    # able to view the hover able message
+    Require Permission: false
+    # Setting this to false will make it so that another plugin will take control
+    # of the chat. Setting this to true will use the formatting below.
+    #
+    # Please note that this may cause the entire message to be taken over by
+    # HoverStats. This is the case if you are using Luck Perms Chat (LPC) which
+    # doesn't abide by Minecraft's chat formatting standards.
+    Use Formatting: true
+    # Setting this to false will make it so that you can use the chat formatting
+    # from HoverStats instead of Luck Perms Chat (LPC). This shouldn't be changed
+    # as if you have LPC you are more than likely planing to use it, and if you
+    # aren't it should be removed.
+    Override LPC: true
+
+Hover Blacklist:
+  # Define groups that are not able to send any hover messages
+  Groups:
+    - admin
+  # Define users that are not able to send any hover messages
+  Users:
+    - Notch
 
 
 # #################################################################### #
@@ -121,10 +142,12 @@ Messages:
   System Messages:
     Success:
       PAPI Hook: "&aFound PlaceholderAPI, hooking into it."
+      Vault Hook: "&aFound Vault, hooking into it."
       Reloaded: "%success% %pluginname%'s &7config has successfully reloaded!"
 
     Error:
       PAPI Hook: "&cCouldn't find PlaceholderAPI, any placeholders from PAPI will no longer work."
+      Vault Hook: "&cCouldn't find Vault, permission based commands/placeholders will not work until vault is installed."
       No Permissions: "%error% &7You don't have permission to run this command!"
 
   # Default help message, you can change this if you want
@@ -136,43 +159,3 @@ Messages:
     - "&a/%cmdName% reload &7- Reload's %pluginname%'s config."
     - "&7&l&m⎯⎯⎯⎯⎯⎯&r &a&l%pluginname% Help &r&7&l&m⎯⎯⎯⎯⎯⎯&r"
     - ""
-
-# #################################################################### #
-#                                                                      #
-#                           Hover Messages                             #
-#                                                                      #
-# #################################################################### #
-Hover:
-  First Join:
-    - "&7Welcome &b%displayname% &7to the server!"
-    - "&7We hope you enjoy your stay!"
-    - ""
-    - "&e&lClick this to say \"Welcome to the Server!\""
-  First Join Click Command: "Welcome to the Server!"
-
-  Join:
-    - "&7Welcome back &b%displayname%&7!"
-    - ""
-    - "&e&lLast Online:"
-    - "#556DC8%last_joined%"
-    - ""
-    - "&e&lClick this to say \"Welcome back\""
-  Join Click Command: "Welcome back!"
-
-  Quit:
-    - "&e&l%player%'s Stats:"
-    - ""
-    - "&e&lJoin Date:"
-    - "#556DC8%first_joined%"
-    - ""
-    - "&e&lClick this to message player"
-  Quit Click Command: "/mail %player% "
-
-  Stats:
-    - "&e&l%player%'s Stats:"
-    - ""
-    - "&e&lJoin Date:"
-    - "#556DC8%first_joined%"
-    - ""
-    - "&e&lClick this to message player"
-  Stats Click Command: "/msg %player% "
