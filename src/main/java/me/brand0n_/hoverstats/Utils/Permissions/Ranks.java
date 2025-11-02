@@ -93,4 +93,9 @@ public class Ranks {
         return plugin.getPermissions().getPrimaryGroup((Player) sender);
     }
 
+    public static List<String> getGroups() {
+        // Return a list of all the registered groups on the server
+        return List.of(plugin.getPermissions().getGroups());
+    }
+
 }

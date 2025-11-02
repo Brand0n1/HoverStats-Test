@@ -149,6 +149,7 @@ Messages:
       PAPI Hook: "&cCouldn't find PlaceholderAPI, any placeholders from PAPI will no longer work."
       Vault Hook: "&cCouldn't find Vault, permission based commands/placeholders will not work until vault is installed."
       No Permissions: "%error% &7You don't have permission to run this command!"
+      Usage: "%error% &eUsage Error &8| &7%usage%"
 
   # Default help message, you can change this if you want
   Help:

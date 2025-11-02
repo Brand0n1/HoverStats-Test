@@ -27,6 +27,18 @@ permissions:
   hoverstats.colors.hex:
     description: This will give the player access to all hex colors
     default: false
+  hoverstats.whitelist:
+    default: false
+  hoverstats.blacklist:
+    default: false
+  hoverstats.whitelist.user:
+    default: false
+  hoverstats.whitelist.group:
+    default: false
+  hoverstats.blacklist.user:
+    default: false
+  hoverstats.blacklist.group:
+    default: false
   hoverstats.update:
     default: op
   hoverstats.version:
@@ -40,6 +52,12 @@ permissions:
     children:
       hoverstats.help: true
       hoverstats.reload: true
+      hoverstats.blacklist: true
+      hoverstats.whitelist: true
+      hoverstats.blacklist.user: true
+      hoverstats.blacklist.group: true
+      hoverstats.whitelist.user: true
+      hoverstats.whitelist.group: true
       hoverstats.update: true
       hoverstats.version: true
       hoverstats.chat.view: true
@@ -52,6 +70,12 @@ permissions:
     children:
       hoverstats.help: true
       hoverstats.reload: true
+      hoverstats.blacklist: true
+      hoverstats.whitelist: true
+      hoverstats.blacklist.user: true
+      hoverstats.blacklist.group: true
+      hoverstats.whitelist.user: true
+      hoverstats.whitelist.group: true
       hoverstats.update: true
       hoverstats.version: true
       hoverstats.chat.view: true
